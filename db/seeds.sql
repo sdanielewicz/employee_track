@@ -16,7 +16,7 @@ VALUES ("Associate Saleperson", 85000, 4),
        ("Senior Full Stack Developer", 200000, 1),
        ("Senior Software Engineer", 220000, 1),
        ("COO", 300000, 3),
-       ("CEO", 300000, 3);
+       ("CEO", 300001, 3);
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES ("Rico", "Fuentes", 2, 7),
