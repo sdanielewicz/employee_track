@@ -18,7 +18,7 @@ VALUES ("Associate Saleperson", 85000, 4),
        ("COO", 300000, 3),
        ("CEO", 300001, 3);
 
-INSERT INTO employee (first_name, last_name, role_id, manager_id)
+INSERT INTO employee (first_name, last_name, manager_id, role_id)
 VALUES ("Rico", "Fuentes", 2, 7),
        ("Hasnain", "Haworth", 5, 7),
        ("Miles", "Clegg", 8, 7),
@@ -36,3 +36,5 @@ VALUES ("Rico", "Fuentes", 2, 7),
        ("Karl", "Faulkner", 1, 7),
        ("Macaulay", "Smith", 11, 12),
        ("Owen", "Cousins", 12, 12);
+
+ALTER TABLE employee ADD FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE CASCADE;
