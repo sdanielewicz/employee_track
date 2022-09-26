@@ -37,4 +37,4 @@ VALUES ("Rico", "Fuentes", 2, 7),
        ("Macaulay", "Smith", 11, 12),
        ("Owen", "Cousins", 12, 12);
 
-ALTER TABLE employee ADD FOREIGN KEY (manager_id) REFERENCES employee(id) ON DELETE CASCADE;
+ALTER TABLE employee ADD FOREIGN KEY (manager_id) REFERENCES employee(id);
