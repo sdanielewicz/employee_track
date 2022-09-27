@@ -129,7 +129,7 @@ function init() {
           break;
 
         case "view all roles":
-
+          viewAllRoles();
           init();
           break;
 
