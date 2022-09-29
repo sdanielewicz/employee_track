@@ -22,7 +22,6 @@ const menu = [
   {
     type: 'list',
     name: 'menu',
-    message: 'Welcome to the Emplyee Database. Please select an option',
     choices: [
       'view all departments',
       'view all roles',
@@ -31,10 +30,10 @@ const menu = [
       'add a role',
       'add an employee',
       'update an employee role']
-  },
+  }
 ]
 
-const addDept = [
+const addDeptPrompt = [
   {
     type: 'input',
     name: 'dept',
@@ -42,7 +41,7 @@ const addDept = [
   }
 ];
 
-const addRole = [
+const addRolePrompt = [
   {
     type: 'input',
     name: 'role',
@@ -100,6 +99,8 @@ function viewAllEmp() {
   db.query('SELECT * FROM employee', function (err, results) {
     console.log("\n");
     console.table(results);
+    init();
+
   });
 }
 
@@ -107,6 +108,7 @@ function viewAllDept() {
   db.query('SELECT * FROM department', function (err, results) {
     console.log("\n");
     console.table(results);
+    init();
   });
 }
 
@@ -114,9 +116,25 @@ function viewAllRoles() {
   db.query('SELECT * FROM role', function (err, results) {
     console.log("\n");
     console.table(results);
+    init();
+
   });
 }
 
+function addDept(answer){
+  db.query(`INSERT INTO department(dept_name) VALUES ("${answer.dept}")`, function (err, results) {
+    console.log("\n");
+    console.table(results);
+});
+}
+
+function addRole(answer){
+  db.query(`INSERT INTO role(title, salary, department_id) VALUES ("${answer.role}","${answer.salary}","${answer.dept_id}")`, function (err, results) {
+    console.log("\n");
+   console.table(results);
+  });
+
+}
 
 function init() {
 
@@ -125,7 +143,6 @@ function init() {
       switch (answer.menu) {
         case "view all departments":
           viewAllDept();
-          init();
           break;
 
         case "view all roles":
@@ -139,42 +156,38 @@ function init() {
           break;
 
         case "add a department":
-          inquirer.prompt(addDept)
+          inquirer.prompt(addDeptPrompt)
             .then(answer => {
-              db.query(`INSERT INTO department(dept_name) VALUES ("${answer.dept}")`, function (err, results) {
-                console.log("\n");
-                console.table(results);
-              });
-            });
-          init();
+          addDept(answer);
+        init();
+
+          })
           break;
 
         case "add a role":
-          inquirer.prompt(addRole)
+          inquirer.prompt(addRolePrompt)
             .then(answer => {
-
-              db.query(`INSERT INTO role(title, salary, department_id) VALUES ("${answer.role}","${answer.salary}","${answer.dept_id}")`, function (err, results) {
-                console.log("\n");
-                console.table(results);
-
-              });
-            });
+              addRole(answer);
+            
+            init();
+      })
           break;
 
-        case "add an employee":
-          inquirer.prompt(addEmp)
+        case "add an employee":  
+        inquirer.prompt(addEmp)
+        
             .then(answer => {
 
               db.query(`INSERT INTO employee(first_name, last_name, manager_id, role_id) VALUES ("${answer.fn}","${answer.ln}","${answer.mgmt_id}","${answer.role_id}")`, function (err, results) {
                 console.log("\n");
                 console.table(results);
               });
+              init();
             });
+            
           break;
 
         case "update an employee role":
-          viewAllEmp();
-          viewAllRoles();
           inquirer.prompt(selectEmp)
             .then(answer => {
               let empEdit = answer.emp_id;
